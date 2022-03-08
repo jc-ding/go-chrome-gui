@@ -10,5 +10,5 @@ npm run build
 //返回上一级目录
 cd ../
 //go打包
-go build
+go build -ldflags "-s -w -H=windowsgui"
 ```
