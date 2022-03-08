@@ -7,14 +7,17 @@ import (
 	"runtime"
 )
 
-func Chrome_start(chChromeDie, chBackendDie chan struct{}) {
+func Chrome_start(chChromeDie, chBackendDie chan struct{}, port string) {
 	args := []string{
-		"--app=http://localhost:8085/index.html",
+		fmt.Sprintf("--app=http://localhost:%s/index.html", port),
 		"--window-size=600,600",
 		//"--no-first-run",//没有首页时显示空白页
 		//"--remote-debugging-port=0",
 		"--user-data-dir=./a/",
 	}
+	url := fmt.Sprintf("http://localhost:%s/index.html", port)
+	fmt.Println("url", url)
+	args = append(args, "--app="+url)
 	c := exec.Command(LocateChrome(), args...)
 	c.Start()
 	//后端关闭时关闭浏览器

@@ -15,17 +15,20 @@ import (
 var Fs embed.FS
 
 func main() {
+	//生成端口
+	port := utils.GeneratorPort()
+	fmt.Println("端口：", port)
 	// 结构化目录
 	staticFiles, _ := fs.Sub(Fs, "frontend/dist")
 	router := router.InitRouter(staticFiles)
+	go router.Run(":" + port)
 	//chan
 	chChromeDie := make(chan struct{})
 	chBackendDie := make(chan struct{})
 	//启动chrome
-	go utils.Chrome_start(chChromeDie, chBackendDie)
-	go router.Run(":8085")
-	chSignal := signalInterrupt()
+	go utils.Chrome_start(chChromeDie, chBackendDie, port)
 
+	chSignal := signalInterrupt()
 	//case只执行一次所以要死循环
 	for {
 		select {
