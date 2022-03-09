@@ -1,5 +1,6 @@
 ### 一个使用Go+Vue快速开发H5窗口的简易框架
 使用说明
+go version 1.16++
 ```
 //进入前端目录
 cd frontend
